@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.makkan.board.mapper.BoardMapper">
+	<select id="getOldFiles" resultType="kr.co.makkan.board.domain.FileDTO">
+		select *
+		from filelist
+		where uploadPath = to_char(sysdate -1, 'yyyy\mm\dd')
+	</select>
+	<delete id="removeReply">
+		delete from board_reply
+		where replyNo=#{replyNo}
+	</delete>
+	<delete id="deleteAllReply">
+		delete from board_reply
+		where postno=#{postNo}
+	</delete>
+	<update id="deletePost">
+		update board
+		set droppost='y'
+		where postno=#{postNo}
+	</update>
+	<update id="modifyReply">
+		update board_reply
+		set reply = #{reply}
+		where replyNo = #{replyNo}
+	</update>
+	<select id="selAllReply" resultType="kr.co.makkan.board.domain.ReplyDTO">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT ROWNUM RNUM, replyNo, postno, replyerid, reply, replyDate
+			      FROM board_reply
+			      where postno=#{postNo}
+			      order by replyno) 
+			WHERE RNUM >= #{startNum} AND RNUM <= #{endNum}
+		]]>
+	</select>
+	<insert id="addReply">
+		insert into board_reply
+		values (reply_seq.nextval,#{postNo},#{replyerId},#{reply},sysdate)
+	</insert>
+	<update id="modifyPost">
+		update board
+		set title=#{title}, content=#{content}, reportdate=sysdate
+		where postno= #{postNo}
+	</update>
+	<delete id="removeAttach">
+		delete from filelist
+		where postno = #{postNo}
+	</delete>
+	<select id="selAttach" resultType="kr.co.makkan.board.domain.FileDTO">
+		select * 
+		from filelist
+		where postNo=#{postNo}
+	</select>
+	<insert id="addAttach">
+		insert into filelist
+		values(#{postNo}, #{fileName}, #{uuid}, #{uploadPath})
+	</insert>
+	<select id="selectMaxNum" resultType="integer">
+		select max(postNo)
+		from board
+	</select>
+	<insert id="addPost">
+		insert into board (postNo,writerId,writerName,title,content)
+		values(board_seq.nextval,#{writerId},#{writerName},#{title},#{content})
+	</insert>
+	<insert id="addNotice">
+		insert into board (postNo,writerId,writerName,title,content,noticePost)
+		values(board_seq.nextval,#{writerId},#{writerName},#{title},#{content},'y')
+	</insert>
+	<select id="selPostView" resultType="kr.co.makkan.board.domain.BoardDTO">
+		select * from board where postNo=#{postNo}
+	</select>
+	<select id="totalPostCnt" resultType="integer">
+		select count(*)
+		from board
+		where noticepost='n' and droppost='n'
+	</select>
+	<select id="allPostList" resultType="kr.co.makkan.board.domain.BoardDTO">
+		select *
+		from (select rownum rn, temp.*
+			  from (select *
+			  		from board
+			  		where noticepost='n' and droppost='n'
+			  		order by postNo desc
+			  		)temp
+			  )paging
+		where paging.rn between #{beginRowNum} and #{endRowNum}
+	</select>
+	<select id="allNoticeList" resultType="kr.co.makkan.board.domain.BoardDTO">
+		select * 
+		from (select rownum rnum, 
+          			 a.* 
+      		  from(select*
+	       	  		from board
+            		where noticepost='y' and droppost='n'
+           			order by postno desc) a)
+		where rnum between 1 and 3
+	</select>
+	
+</mapper>

@@ -1,0 +1,238 @@
+@charset "UTF-8";
+ul li {
+	list-style: none;
+}
+* {
+  box-sizing: border-box;
+  font-family: 'segoe ui';
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/* 게시판 리스트 */
+.board-container {
+	width: 1000px;
+	height: 100vh;
+	text-align: center;
+	margin: 150px auto 0 auto;
+}
+.board-container table {
+	width: 1000px;
+	text-align: center;
+}
+
+.board-table td{
+	padding: 8px;
+}
+
+.board-table a{
+	text-decoration: none;
+	color: black;
+}
+.board-table a:hover {
+	font-weight: bolder;
+}
+@media(max-width:768px) {
+	
+	.board-container {
+		width: 600px;
+		margin: 0;
+		padding: 0;
+		margin-top: 150px;
+	}
+	.board-header {
+		text-align: left;
+		width: 600px;
+	}
+	.board-container h1 {
+		padding-left: 50px;
+	}
+	.board-container hr {
+		width: 600px;
+	}
+	.board-container table{
+		width: 600px;
+		margin:0;
+		padding:0;
+	}
+	.board-container td {
+		height: 10px;
+	}
+	th.list1 {
+		position: relative;
+	}
+}
+
+/* 게시글 작성 */
+.boardform-header span {
+	display: inline-block;
+}
+
+.boardform-con {
+	width: 1000px;
+	height: 80vh;
+	margin: 150px auto 0 auto;
+	text-align: center;
+}
+.boardform-form textarea {
+	width: 800px;
+	padding: 10px;
+	font-size: 20px;
+}
+.boardform-con input[type=text]{
+	width: 800px;
+	font-size: 20px;
+	padding: 10px;
+}
+.boardform-con input[type=file]{
+	border: 1px solid black;
+	margin-bottom: 10px;
+	width: 800px;
+	font-size: 15px;
+}
+.boardform-con input[type=button] , .boardform-con input[type=submit] {
+	background-color: #ff5a5a;
+	color: white;
+	height: 40px;
+	width: 100px;
+	border: none;
+	border-radius: 3px;
+	margin: 5px;
+}
+.boardform-con input[type=button]{
+	/* background-color: rgb(52, 152, 219); */
+	background-color: lightgray;
+	color: gray;
+}
+.boardform-btn {
+	text-align: right;
+	padding-right: 130px;
+}
+
+.boardform-form button {
+	border-radius: 15px;
+	background-color: #1ABC9C;
+	border: none;
+	color: white;
+	height: 20px;
+	margin-bottom: 10px;
+}
+@media(max-width:768px){
+	.boardform-con {
+		text-align: center;
+		width: 600px;
+	}
+	.boardform-header {
+		text-align: left;
+		margin-left: 30px;
+	}
+	.boardform-form input[type=text], .boardform-form input[type=file]{
+		width: 550px;
+	}
+	.boardform-form textarea {
+		width: 550px;
+	}
+	.boardform-btn {
+		text-align: right;
+		padding-right: 20px;
+	}
+}
+
+/* 게시글 보기 */
+.boardview-header div {
+	display: inline-block;
+	margin: 0 80px;
+}
+
+.boardview-con {
+	width: 1000px;
+	height: 80vh;
+	margin: 150px auto 0 auto;
+	text-align: center;
+}
+.boardview-form textarea {
+	width: 800px;
+	padding: 10px;
+	font-size: 15px;
+	overflow: auto;
+	border: none;
+}
+.boardview-con input[type=text]{
+	width: 800px;
+	font-size: 20px;
+	padding: 10px;
+}
+.boardview-con input[type=file]{
+	border: 1px solid black;
+	margin-bottom: 10px;
+	width: 800px;
+	font-size: 15px;
+}
+.boardview-con input[type=button] , .boardview-con input[type=submit] {
+	background-color: #ff5a5a;
+	color: white;
+	height: 40px;
+	width: 100px;
+	border: none;
+	border-radius: 3px;
+	margin: 5px;
+}
+.boardview-con input[type=button]{
+	/* background-color: rgb(52, 152, 219); */
+	background-color: lightgray;
+	color: gray;
+}
+.boardview-btn {
+	text-align: right;
+	padding-right: 100px;
+}
+
+.boardview-form button {
+	border-radius: 15px;
+	background-color: #1ABC9C;
+	border: none;
+	color: white;
+	width: 100px;
+	height: 20px;
+	margin-bottom: 10px;
+}
+.boardview-icon{
+	text-align: left;
+	margin-left: 100px;
+}
+.boardview-footer {
+	text-align: center;
+}
+.boardview-footer input{
+	margin-left: 300px;
+}
+@media(max-width:768px){
+	div.view1, div.view2, div.view3 {
+		display: block;
+		margin-left: 0;
+	}
+	.boardview-con {
+		text-align: center;
+		width: 600px;
+	}
+	.boardview-header {
+		text-align: left;
+		margin-left: 30px;
+	}
+	.boardview-form input[type=text], .boardview-form input[type=file]{
+		width: 550px;
+	}
+	.boardview-form textarea {
+		width: 550px;
+	}
+	.boardview-btn {
+		text-align: right;
+		padding-right: 20px;
+	}
+	.boardview-icon{
+		margin-left: 25px;
+	}
+}

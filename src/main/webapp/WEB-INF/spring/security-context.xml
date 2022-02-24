@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+		
+	<!-- 단방향 암호화 객체 -->
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<security:http auto-config="true" use-expressions="true">
+		<!-- security 4.x 버전부터 csrf필터 자동 적용 .. true시 비활성화-->
+		<!-- <security:csrf disabled="true"/> -->
+		<!-- css등 정적 resource 접근 허용 -->
+		<security:intercept-url pattern="/resources/**" access="permitAll" />
+		<!-- 접근 허용 범위 (허용-금지 순서로 작성)-->
+		<security:intercept-url pattern="/*" access="permitAll"/>
+		<!-- 익명의 사용자만 회원가입가능 -->
+		<security:intercept-url pattern="/term" access="isAnonymous()"/>
+		
+	    <security:form-login	
+			username-parameter="id" 
+			password-parameter="pw"
+			login-processing-url="/loginConfirm" 
+			login-page="/loginForm" 
+			authentication-success-handler-ref="userLoginSuccessHandler"
+			authentication-failure-handler-ref="userLoginFailHandler" />
+		
+		<security:logout logout-url="/logout" logout-success-url="/" 
+			invalidate-session="true" delete-cookies="true"/>
+	</security:http>
+	
+	<!-- DB연동 -->
+   	 <security:authentication-manager>
+   	 	<security:authentication-provider ref="userLoginAuthenticationProvider">
+   	 	</security:authentication-provider>
+   	 </security:authentication-manager>
+
+</beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.makkan.product.mapper.ProductMapper">
+	<delete id="removeThis">
+		delete from cart
+		where userid=#{userId} and prodNo=#{prodNo}
+	</delete>
+	<delete id="removeEmptyCart">
+		delete from cart
+		where userid=#{userId} and amount=0
+	</delete>
+	<select id="cartList" resultType="kr.co.makkan.product.domain.CartDTO">
+		select p.proprice, p.proname, c.prodNo, c.amount
+		from product p , cart c
+		where p.procode = c.prodno and c.userid=#{userId}
+	</select>
+	<delete id="cartRemove">
+		delete from cart
+		where userid = #{userId} and prodno = #{prodNo}
+	</delete>
+	<insert id="cartAdd">
+		insert into cart
+		values(#{userId}, #{prodNo}, 1)
+	</insert>
+	<select id="cartDuplicateChk" resultType="kr.co.makkan.product.domain.CartDTO">
+		select * 
+		from cart 
+		where userid = #{userId} and prodno = #{prodNo}
+	</select>
+	<update id="increaseAmount">
+		update cart
+		set amount = (SELECT TO_NUMBER(NVL(MAX(amount), '0')) + 1 
+				      FROM cart 
+					  WHERE userid = #{userId} and prodno = #{prodNo})
+		where userid = #{userId} and prodno = #{prodNo}
+	</update>
+	<update id="decreaseAmount">
+		update cart
+		set amount = (SELECT TO_NUMBER(NVL(MAX(amount), '0')) -1 
+					  FROM cart 
+					  WHERE userid = #{userId} and prodno = #{prodNo})
+		where userid = #{userId} and prodno = #{prodNo}
+	</update>
+	<select id="selAllProduct" resultType="kr.co.makkan.product.domain.ProductDTO">
+		select * 
+		from product
+	</select>
+	<select id="selOneProduct" resultType="kr.co.makkan.product.domain.ProductDTO">
+		select * 
+		from product 
+		where proCode=#{proCode}
+	</select>
+</mapper>
